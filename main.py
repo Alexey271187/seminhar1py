@@ -229,14 +229,14 @@ index_range(list2)"""
 Стихотворение  Винни-Пух вбивает в программу с клавиатуры. В ответе напишите “Парам пам-пам”, 
 если с ритмом все в порядке и “Пам парам”, если с ритмом все не в порядке"""
 
-text = input('Введите слова стихотворения: ')
+"""text = input('Введите слова стихотворения: ')
 str = text.lower().split()
 a = lambda x: sum(1 for i in x if i in 'аеёиоуыэюя')
 b = a(str[0])
 if all([a(i) == b for i in str]):
     print('Парам пам-пам')
 else:
-    print('Пам парам')
+    print('Пам парам')"""
 
 """Задача 36: Напишите функцию print_operation_table(operation, num_rows=6, num_columns=6), 
 которая принимает в качестве аргумента функцию, вычисляющую элемент по номеру строки и столбца. 
@@ -244,7 +244,7 @@ else:
 Нумерация строк и столбцов идет с единицы (подумайте, почему не с нуля). Примечание:
 бинарной операцией называется любая операция, у которой ровно два аргумента, как, например, у операции умножения."""
 
-def print_operation_table(x, y):
+"""def print_operation_table(x, y):
     oper = [[i*j for j in range(1,x+1)] for i in range(1,y+1)]
     for i in oper:
         print(*i)
@@ -253,6 +253,107 @@ def print_operation_table(x, y):
 num_rows = int(input('Введите число строк: '))
 num_columns = int(input('Введите число столбцов: '))
 
-print_operation_table(num_rows, num_columns)
+print_operation_table(num_rows, num_columns)"""
+
+"""Задача 38: Дополнить телефонный справочник возможностью изменения и удаления данных.
+Пользователь также может ввести имя или фамилию, и Вы должны реализовать функционал для изменения и удаления данных"""
+
+def print_menu():
+    print( '''      Меню телефонного справочника
+    1 - показать все контакты
+    2 - поиск контакта
+    3 - добавить новый контакт
+    4 - изменить данные контакта
+    5 - удалить контакт
+    6 - выход'''
+    )
+
+def addition():
+    with open(file_path, 'a', encoding='utf8') as phonebook:
+        add_family = (input('Введите фамилию: ' ).title())
+        add_name = (input('Введите имя: ' ).title())
+        add_tel = (input('Введите номер: ' ).title())
+        new_line = add_family +' '+add_name +' '+ add_tel
+        phonebook.writelines(f'\n{new_line}')
+        print(f'Добавили новый контакт {new_line}')
+def edit():
+    with open(file_path, 'r', encoding="utf-8") as phonebook:
+        X = input('Какой контакт меняем: ')
+        lines = phonebook.readlines()
+        with open(file_path, 'w', encoding="utf-8") as phonebook:
+            for line in lines:
+                if X in line:
+                    print("Создаём новый контакт")
+                else:
+                    print(line)
+                    phonebook.write(line)
+    with open(file_path, 'a', encoding='utf8') as phonebook:
+        add_family = (input('Введите фамилию: ' ).title())
+        add_name = (input('Введите имя: ' ).title())
+        add_tel = (input('Введите номер: ' ).title())
+        new_line = add_family +' '+add_name +' '+ add_tel
+        phonebook.writelines(f'\n{new_line}')
+        print(f'Добавили новый контакт {new_line}')
+
+
+def search():
+    with open(file_path, 'r', encoding='utf8') as phonebook:
+        seach_param = (input('Введите параметр для поиска: ' ).title())
+        for line in phonebook:
+            if seach_param in line:
+                print(line)
+
+
+def remove_contact():
+    with open(file_path, 'r', encoding="utf-8") as phonebook:
+        X = input('Введите Имя или Фамилию для удаления: ')
+        lines = phonebook.readlines()
+        with open(file_path, 'w', encoding="utf-8") as phonebook:
+            for line in lines:
+                if X in line:
+                    print("Контакт удалён")
+                else:
+                    print(line)
+                    phonebook.write(line)
+
+
+
+def read_all():
+    with open(file_path, 'r', encoding='utf8') as phonebook:
+        print()
+        for line in phonebook:
+            print(line)
+
+
+
+def tasks(task):
+    if task == 1:
+        read_all()
+        print_menu()
+        tasks(int(input('Введите номер задачи от 1 до 6: ')))
+    elif task == 2:
+        search()
+        print_menu()
+        tasks(int(input('Введите номер задачи от 1 до 6: ')))
+    elif task == 3:
+        addition()
+        print_menu()
+        tasks(int(input('Введите номер задачи от 1 до 6: ')))
+    elif task == 4:
+        edit()
+        print_menu()
+        tasks(int(input('Введите номер задачи от 1 до 6: ')))
+    elif task == 5:
+        remove_contact()
+        print_menu()
+        tasks(int(input('Введите номер задачи от 1 до 6: ')))
+    elif task == 6: print('До свидания!')
+    elif task > 6:
+        print('Вы ошиблись')
+
+file_path = 'phonebook.txt'
+print_menu()
+tasks(int(input('Введите номер задачи от 1 до 6: ')))
+
 
 
